@@ -31,31 +31,6 @@
 
 ## 快速开始
 
-### ⚡ 一键快速部署
-
-如果您想要最快速的部署方式，只需运行以下命令：
-
-```bash
-# 创建项目目录
-mkdir cloudflare-analytics
-cd cloudflare-analytics
-
-# 下载 Docker Compose 配置文件
-wget https://raw.githubusercontent.com/Geekertao/cloudflare-analytics/main/docker-compose.yml
-
-# 编辑配置文件（添加您的 Cloudflare Token 和 Zone 信息）
-nano docker-compose.yml  # 或使用 vim docker-compose.yml
-
-# 启动服务
-sudo docker compose -f docker-compose.yml up -d
-```
-
-🎯 **部署完成后**：
-
-- 访问 `http://ip:端口` 查看仪表盘
-- 确保在 `docker-compose.yml` 中正确配置了您的 Cloudflare API Token 和 Zone 信息
-- 首次启动可能需要几分钟来获取数据
-
 ### 📋 详细部署方式
 
 现在支持三种部署方式，按优先级排序：
@@ -88,8 +63,26 @@ docker run -p 80:80 \
   -e CF_CONFIG='{"accounts":[{"name":"主账号","token":"your_token","zones":[{"zone_id":"zone1","domain":"example.com"},{"zone_id":"zone2","domain":"cdn.example.com"}]}]}' \
   geekertao/cloudflare-analytics
 ```
+#### 方式2⚡: Docker-Compose快速部署
 
-#### 方式 2: 配置文件（传统方式）
+如果您想要最快速的部署方式，只需运行以下命令：
+
+```bash
+# 创建项目目录
+mkdir cloudflare-analytics
+cd cloudflare-analytics
+
+# 下载 Docker Compose 配置文件
+wget https://raw.githubusercontent.com/Geekertao/cloudflare-analytics/main/docker-compose.yml
+
+# 编辑配置文件（添加您的 Cloudflare Token 和 Zone 信息）
+nano docker-compose.yml  # 或使用 vim docker-compose.yml
+
+# 启动服务
+sudo docker compose -f docker-compose.yml up -d
+```
+
+#### 方式 3: 配置文件（传统方式）
 
 编辑 `server/zones.yml` 文件：
 
@@ -101,6 +94,12 @@ accounts:
       - domain: "example.com"
         zone_id: "你的Zone ID"
 ```
+
+🎯 **部署完成后**：
+
+- 访问 `http://ip:端口` 查看仪表盘
+- 确保在 `docker-compose.yml` 中正确配置了您的 Cloudflare API Token 和 Zone 信息
+- 首次启动可能需要几分钟来获取数据
 
 ### 🚀 本地开发步骤
 
