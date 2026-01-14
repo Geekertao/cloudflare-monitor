@@ -127,7 +127,7 @@ const VersionChecker = () => {
 
   return (
     <div style={containerStyle}>
-      <span>{t('currentVersion')}: v{versionInfo.current}</span>
+      <span>{t('currentVersion')}: {versionInfo.current.startsWith('v') ? versionInfo.current : `v${versionInfo.current}`}</span>
       
       {versionInfo.hasUpdate ? (
         <a 

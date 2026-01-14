@@ -191,8 +191,12 @@ const WorldMap = ({ data, formatNumber, formatBytes, isMobile }) => {
     const map = {};
     if (data && Array.isArray(data)) {
       data.forEach(item => {
-        // 使用 ISO 代码匹配
-        map[item.country] = item;
+        // 规范化国家代码
+        let code = item.country;
+        // 处理特殊情况
+        if (code === 'UK') code = 'GB'; // Cloudflare 有时可能返回 UK，标准 ISO 是 GB
+        
+        map[code] = item;
       });
     }
     return map;
@@ -237,12 +241,17 @@ const WorldMap = ({ data, formatNumber, formatBytes, isMobile }) => {
   };
 
   const handleMouseEnter = (geo, current = { x: 0, y: 0 }) => {
-    const isoCode = geo.properties["Alpha-2"]; // 获取 ISO Alpha-2 代码
+    // 获取 ISO Alpha-2 代码，尝试多个字段以提高兼容性
+    let isoCode = geo.properties["Alpha-2"] || geo.properties["ISO_A2"] || geo.id;
+    
+    // 规范化代码
+    if (isoCode === 'UK') isoCode = 'GB';
+
     // Cloudflare 数据直接是 ISO 代码，所以直接匹配
     let stats = dataMap[isoCode];
     
     // 获取显示名称：优先用映射表，否则用 ISO 代码
-    const displayName = countryNameMap[isoCode] || isoCode || "Unknown";
+    const displayName = countryNameMap[isoCode] || geo.properties.name || isoCode || "Unknown";
 
     if (stats) {
       setTooltipContent({
@@ -367,13 +376,21 @@ const WorldMap = ({ data, formatNumber, formatBytes, isMobile }) => {
             <Geographies geography={GEO_URL}>
               {({ geographies }) =>
                 geographies.map((geo) => {
-                  const isoCode = geo.properties["Alpha-2"]; // 获取 ISO Alpha-2 代码
+                  // 获取 ISO Alpha-2 代码，尝试多个字段以提高兼容性
+                  let isoCode = geo.properties["Alpha-2"] || geo.properties["ISO_A2"] || geo.id;
+                  
+                  // 规范化代码
+                  if (isoCode === 'UK') isoCode = 'GB';
+
                   // 查找对应数据
                   let stats = dataMap[isoCode];
                   
                   // 计算颜色
                   const fillColor = stats ? getFillColor(stats.requests) : themeColors.default;
 
+                  // 获取显示名称：优先用映射表，否则用 ISO 代码
+                  const displayName = countryNameMap[isoCode] || geo.properties.name || isoCode || "Unknown";
+                  
                   return (
                     <Geography
                       key={geo.rsmKey}
@@ -427,7 +444,7 @@ const WorldMap = ({ data, formatNumber, formatBytes, isMobile }) => {
             </>
           ) : (
             <div style={{ fontSize: '12px', color: '#999' }}>
-              {t('noData')}
+              {t('notInTop5')}
             </div>
           )}
         </div>

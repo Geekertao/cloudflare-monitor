@@ -84,6 +84,7 @@ const languages = {
         countryRegion: '国家/地区',
         bandwidth: '带宽',
         noGeographyData: '暂无地理位置数据',
+        notInTop5: '未进入前5名',
 
         // 移动端简化标签(保持准确性)
         countryShort: '国家/地区',
@@ -183,6 +184,7 @@ const languages = {
         countryRegion: 'Country/Region',
         bandwidth: 'Bandwidth',
         noGeographyData: 'No geography data available',
+        notInTop5: 'Not in Top 5',
 
         // Version Checker
         newVersionAvailable: 'New Version Available',

@@ -246,7 +246,7 @@ const GeographyStats = ({ data, formatNumber, formatBytes }) => {
             minWidth: 0
         }}>
            <WorldMap 
-              data={allCountryStats} 
+              data={topCountries} 
               formatNumber={formatNumber} 
               formatBytes={formatBytes}
               isMobile={isMobile}
