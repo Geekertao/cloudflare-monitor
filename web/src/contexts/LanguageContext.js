@@ -202,8 +202,20 @@ const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
     const [currentLanguage, setCurrentLanguage] = useState(() => {
-        // 从localStorage获取保存的语言设置，默认为中文
-        return localStorage.getItem('cf-analytics-language') || 'zh';
+        // 1. 优先使用本地存储的用户偏好
+        const savedLang = localStorage.getItem('cf-analytics-language');
+        if (savedLang) {
+            return savedLang;
+        }
+
+        // 2. 其次检查环境变量配置 (Docker ENV)
+        // 注意：window._env_ 是由 env-config.js 注入的
+        if (window._env_ && (String(window._env_.EN).toLowerCase() === 'true')) {
+            return 'en';
+        }
+
+        // 3. 默认为中文
+        return 'zh';
     });
 
     const switchLanguage = (lang) => {

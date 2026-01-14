@@ -77,8 +77,15 @@ const VersionChecker = () => {
   // 版本比较函数：如果 v1 > v2 返回 true
   const compareVersions = (v1, v2) => {
     if (!v1 || !v2) return false;
-    const parts1 = v1.split('.').map(Number);
-    const parts2 = v2.split('.').map(Number);
+    
+    // 移除可能存在的 'v' 前缀
+    const cleanV1 = v1.replace(/^v/, '');
+    const cleanV2 = v2.replace(/^v/, '');
+    
+    if (cleanV1 === cleanV2) return false;
+
+    const parts1 = cleanV1.split('.').map(Number);
+    const parts2 = cleanV2.split('.').map(Number);
     
     for (let i = 0; i < Math.max(parts1.length, parts2.length); i++) {
       const p1 = parts1[i] || 0;
