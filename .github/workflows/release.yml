@@ -1,0 +1,67 @@
+name: Release Version
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'New version (e.g., 1.0.1) or bump type (major, minor, patch)'
+        required: true
+        default: 'patch'
+
+jobs:
+  bump-version:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Configure Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Bump Version
+        id: bump
+        run: |
+          INPUT_VERSION="${{ inputs.version }}"
+          
+          # Helper function to bump version
+          bump_pkg() {
+            local dir=$1
+            local type=$2
+            echo "Bumping version in $dir with $type"
+            cd $dir
+            npm version $type --no-git-tag-version --allow-same-version
+            cd ..
+          }
+
+          # Check if input is a valid bump type
+          if [[ "$INPUT_VERSION" =~ ^(major|minor|patch)$ ]]; then
+            bump_pkg "web" $INPUT_VERSION
+            bump_pkg "server" $INPUT_VERSION
+          else
+            # Set specific version
+            bump_pkg "web" $INPUT_VERSION
+            bump_pkg "server" $INPUT_VERSION
+          fi
+          
+          # Get the new version from web/package.json
+          NEW_VERSION=$(node -p "require('./web/package.json').version")
+          echo "NEW_VERSION=$NEW_VERSION" >> $GITHUB_ENV
+
+      - name: Commit and Push
+        run: |
+          git add web/package.json server/package.json
+          git commit -m "chore(release): bump version to ${{ env.NEW_VERSION }}"
+          git tag v${{ env.NEW_VERSION }}
+          git push origin HEAD:main
+          git push origin v${{ env.NEW_VERSION }}

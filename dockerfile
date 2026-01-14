@@ -5,6 +5,9 @@ COPY web/package*.json ./
 # 安装所有依赖（包括devDependencies）以支持构建
 RUN npm ci
 COPY web/ ./
+# 接收构建参数并作为环境变量注入
+ARG REACT_APP_VERSION
+ENV REACT_APP_VERSION=$REACT_APP_VERSION
 RUN npm run build
 
 # ---------- 阶段 2：后端 ----------

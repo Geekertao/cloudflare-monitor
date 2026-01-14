@@ -78,6 +78,7 @@ const languages = {
         requestsByCountry: '各国家/地区请求数量',
         bandwidthByCountry: '各国家/地区带宽使用量',
         trafficByCountry: '各国家/地区流量统计',
+        trafficDistribution: '全球流量分布',
         requestDistribution: '请求数分布',
         detailedStats: '详细统计',
         countryRegion: '国家/地区',
@@ -88,6 +89,17 @@ const languages = {
         countryShort: '国家/地区',
         requestsShort: '请求',
         bandwidthShort: '流量',
+
+        // Version Checker
+        newVersionAvailable: '发现新版本',
+        currentVersion: '当前版本',
+        latestVersion: '最新版本',
+        updateNow: '立即更新',
+        isLatestVersion: '已是最新版本',
+        checkError: '检查更新失败',
+        checkingUpdate: '正在检查更新...',
+        viewChangelog: '查看更新日志',
+
     },
     en: {
         // Dashboard
@@ -165,16 +177,22 @@ const languages = {
         requestsByCountry: 'Requests by Country/Region',
         bandwidthByCountry: 'Bandwidth by Country/Region',
         trafficByCountry: 'Traffic Statistics by Country/Region',
+        trafficDistribution: 'Global Traffic Distribution',
         requestDistribution: 'Request Distribution',
         detailedStats: 'Detailed Statistics',
         countryRegion: 'Country/Region',
         bandwidth: 'Bandwidth',
         noGeographyData: 'No geography data available',
 
-        // 移动端简化标签(保持准确性)
-        countryShort: 'Country/Region',
-        requestsShort: 'Requests',
-        bandwidthShort: 'Traffic',
+        // Version Checker
+        newVersionAvailable: 'New Version Available',
+        currentVersion: 'Current',
+        latestVersion: 'Latest',
+        updateNow: 'Update Now',
+        isLatestVersion: 'Latest Version',
+        checkError: 'Check Failed',
+        checkingUpdate: 'Checking...',
+        viewChangelog: 'Changelog',
     }
 };
 

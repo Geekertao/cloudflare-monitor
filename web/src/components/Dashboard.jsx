@@ -5,6 +5,7 @@ import GeographyStats from './GeographyStats';
 import LineChart from './LineChart';
 import LanguageSwitch from './LanguageSwitch';
 import ThemeSwitch from './ThemeSwitch';
+import VersionChecker from './VersionChecker';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const Dashboard = ({ accounts, selectedPeriod, onPeriodChange }) => {
@@ -318,10 +319,11 @@ const Dashboard = ({ accounts, selectedPeriod, onPeriodChange }) => {
           <div className="powered-by-badges">
             <a href="https://developers.cloudflare.com/analytics/graphql-api/"><img src="https://img.shields.io/badge/Cloudflare%20GraphQL%20Analytics%20API-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" alt="Cloudflare GraphQL Analytics API" />
             </a>
-            <a href="https://github.com/Geekertao/Cloudflare-Analytics">
+            <a href="https://github.com/Geekertao/Cloudflare-monitor">
               <img src="https://img.shields.io/badge/GitHub-Click%20to%20open-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Repository" />
             </a>
           </div>
+          <VersionChecker />
         </div>
       </div>
     </div>
