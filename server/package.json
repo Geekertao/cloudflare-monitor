@@ -1,6 +1,6 @@
 {
   "name": "cf-analytics-server",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Cloudflare Analytics API Server",
   "main": "main.js",
   "type": "module",
