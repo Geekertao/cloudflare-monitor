@@ -5,6 +5,11 @@ const ThemeContext = createContext();
 export const ThemeProvider = ({ children }) => {
     // 从localStorage获取保存的主题设置，默认为浅色模式
     const [isDarkMode, setIsDarkMode] = useState(() => {
+        // 0. 优先检查 URL 参数 (?dark 或 ?theme=dark)
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('dark') || params.get('theme') === 'dark') return true;
+        if (params.has('light') || params.get('theme') === 'light') return false;
+
         const savedTheme = localStorage.getItem('cf-analytics-theme');
         if (savedTheme) {
             return savedTheme === 'dark';

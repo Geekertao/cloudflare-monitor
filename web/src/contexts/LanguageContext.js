@@ -186,6 +186,10 @@ const languages = {
         noGeographyData: 'No geography data available',
         notInTop5: 'Not in Top 5',
 
+        // 移动端简化标签(保持准确性)
+        countryShort: 'Country/Region',
+        requestsShort: 'Requests',
+        bandwidthShort: 'Traffic',
         // Version Checker
         newVersionAvailable: 'New Version Available',
         currentVersion: 'Current',
@@ -202,7 +206,16 @@ const LanguageContext = createContext();
 
 export const LanguageProvider = ({ children }) => {
     const [currentLanguage, setCurrentLanguage] = useState(() => {
-        // 1. 优先使用本地存储的用户偏好
+        // 0. 优先检查 URL 参数 (?en 或 ?lang=en)
+        const params = new URLSearchParams(window.location.search);
+        if (params.has('en') || params.get('lang') === 'en') {
+            return 'en';
+        }
+        if (params.has('zh') || params.get('lang') === 'zh') {
+            return 'zh';
+        }
+
+        // 1. 其次使用本地存储的用户偏好
         const savedLang = localStorage.getItem('cf-analytics-language');
         if (savedLang) {
             return savedLang;

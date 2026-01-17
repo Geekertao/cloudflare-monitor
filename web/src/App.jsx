@@ -22,7 +22,15 @@ function AppContent() {
   const [accounts, setAccounts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [selectedPeriod, setSelectedPeriod] = useState('1day'); // 单日、3天、7天
+  const [selectedPeriod, setSelectedPeriod] = useState(() => {
+    // 检查 URL 参数中的时间范围 (?1day, ?3days, ?period=1day)
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('1day') || params.get('period') === '1day') return '1day';
+    if (params.has('3days') || params.get('period') === '3days') return '3days';
+    if (params.has('7days') || params.get('period') === '7days') return '7days';
+    if (params.has('30days') || params.get('period') === '30days') return '30days';
+    return '1day';
+  });
 
   useEffect(() => {
     // 使用相对路径，通过nginx反向代理访问

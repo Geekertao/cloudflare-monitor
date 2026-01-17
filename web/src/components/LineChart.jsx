@@ -253,7 +253,9 @@ const CFLineChart = ({ domain, raw, rawHours, selectedPeriod }) => {
     ((totalData.cachedRequests / totalData.requests) * 100).toFixed(1) : 0;
 
   return (
-    <div style={{ 
+    <div 
+      id={domain.toLowerCase()}
+      style={{ 
       background: themeColors.background,
       padding: '24px',
       borderRadius: '12px',

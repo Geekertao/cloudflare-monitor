@@ -24,6 +24,38 @@ const Dashboard = ({ accounts, selectedPeriod, onPeriodChange }) => {
     };
 
     window.addEventListener('scroll', handleScroll);
+    
+    // 检查 URL 参数中的锚点并平滑滚动
+    const params = new URLSearchParams(window.location.search);
+    const domain = params.get('domain');
+    const account = params.get('account');
+
+    if (domain) {
+      setTimeout(() => {
+        const element = document.getElementById(domain.toLowerCase());
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 500); // 延迟执行以确保组件渲染完成
+    } else if (account) {
+      setTimeout(() => {
+        const element = document.getElementById(`account-${account.toLowerCase()}`);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 500);
+    }
+    // 处理 Hash 锚点 (保持原有的 #domain 支持)
+    else if (window.location.hash) {
+      const id = window.location.hash.substring(1).toLowerCase();
+      setTimeout(() => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 500);
+    }
+
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -281,7 +313,7 @@ const Dashboard = ({ accounts, selectedPeriod, onPeriodChange }) => {
       <div className="charts-section">
         <h2 className="section-title">{t('webTrafficTrends')}</h2>
         {accounts.map((account) => (
-          <div key={account.name} className="account-section">
+          <div key={account.name} id={`account-${account.name.toLowerCase()}`} className="account-section">
             <div className="account-header">
               <h3 className="account-name">{t('account')}: {account.name}</h3>
             </div>

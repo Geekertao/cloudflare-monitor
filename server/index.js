@@ -1,7 +1,7 @@
 import express from 'express';
 import cron from 'node-cron';
 import axios from 'axios';
-import fs from 'fs/promises';
+import fs from 'fs';
 import yaml from 'js-yaml';
 import path from 'path';
 
@@ -507,8 +507,8 @@ async function updateData() {
       payload.accounts.push(accData);
     }
 
-    await fs.mkdir('./data', { recursive: true });
-    await fs.writeFile(OUT, JSON.stringify(payload, null, 2));
+    await fs.promises.mkdir('./data', { recursive: true });
+    await fs.promises.writeFile(OUT, JSON.stringify(payload, null, 2));
     console.log(_(`[数据更新] 数据更新完成: ${payload.accounts.length} 个账户`, `[Data Update] Data update completed: ${payload.accounts.length} accounts`));
   } catch (error) {
     console.error(_('[数据更新] 全局错误:', '[Data Update] Global Error:'), error.message);
@@ -547,7 +547,7 @@ app.get('/health', (req, res) => {
 
 // API状态接口
 app.get('/api/status', (req, res) => {
-  const dataExists = require('fs').existsSync('./data/analytics.json');
+  const dataExists = fs.existsSync('./data/analytics.json');
   res.json({
     status: 'running',
     dataExists,
